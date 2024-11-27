@@ -14,7 +14,7 @@ module "cloud_storage" {
   providers = {
     google = google.project
   }
-  source     = "../../../../../modules/terraform-google-storage/"
+  source     = "../../../../modules/terraform-google-storage"
   for_each   = { for bucket in var.cloud_storage : bucket.name => bucket }
   name       = each.value.name
   versioning = each.value.versioning
