@@ -1,0 +1,85 @@
+#variable for GKE
+variable "list_of_gke" {
+  description = ""
+  type = list(object({
+    project_service                      = string
+    project_host                         = string
+    region                               = string
+    zone                                 = string
+    regional                             = bool
+    disable_default_snat                 = bool
+    cluster_name                         = string
+    network_project_id                   = string
+    network                              = string
+    subnetwork                           = string
+    ip_range_pods                        = string
+    ip_range_services                    = string
+    master_ipv4_cidr_block               = string
+    node_disk_type                       = string
+    node_image_type                      = string
+    node_pools_labels                    = map(map(string))
+    node_pools_metadata                  = map(map(string))
+    node_pools_taints                    = map(list(object({ key = string, value = string, effect = string })))
+    node_pools_tags                      = map(list(string))
+    node_pools_oauth_scopes              = map(list(string))
+    upstream_nameservers                 = list(string)
+    non_masquerade_cidrs                 = list(string)
+    ip_masq_resync_interval              = string
+    ip_masq_link_local                   = bool
+    configure_ip_masq                    = bool
+    logging_service                      = string
+    monitoring_service                   = string
+    resource_usage_export_dataset_id     = string
+    enable_network_egress_export         = bool
+    enable_resource_consumption_export   = bool
+    master_authorized_networks           = list(object({ cidr_block = string, display_name = string }))
+    enable_binary_authorization          = bool
+    database_encryption                  = list(object({ state = string, key_name = string }))
+    secrets_encryption_kms_key           = string
+    http_load_balancing                  = bool
+    network_policy                       = bool
+    filestore_csi_driver                 = bool
+    enable_private_endpoint              = bool
+    master_global_access_enabled         = bool
+    enable_private_nodes                 = bool
+    enable_vertical_pod_autoscaling      = bool
+    remove_default_node_pool             = bool
+    create_service_account               = bool
+    enable_shielded_nodes                = bool
+    state                                = string
+    release_channel                      = string
+    master_version                       = string
+    maintenance_start_time               = string
+    maintenance_end_time                 = string
+    maintenance_recurrence               = string
+    cluster_resource_labels              = map(string)
+    enable_intranode_visibility          = bool
+    default_max_pods_per_node            = number
+    authenticator_security_group         = string
+    monitoring_enable_managed_prometheus = bool
+    node_pools = list(object({
+      name                        = string
+      machine_type                = string
+      node_locations              = string
+      node_pool_version           = string
+      total_min_count             = number
+      total_max_count             = number
+      local_ssd_count             = number
+      spot                        = bool
+      disk_size_gb                = number
+      disk_type                   = string
+      image_type                  = string
+      node_count                  = number
+      enable_gcfs                 = bool
+      enable_gvnic                = bool
+      auto_repair                 = bool
+      auto_upgrade                = bool
+      service_account             = string
+      preemptible                 = bool
+      initial_node_count          = number
+      enable_secure_boot          = bool
+      enable_integrity_monitoring = bool
+      boot_disk_kms_key           = string
+    }))
+  }))
+}
