@@ -4,7 +4,7 @@ module "address" {
     google-beta = google-beta.project-beta
   }
 
-  source       = "../../../../../modules/terraform_google_address"
+  source       = "../../../../modules/terraform_google_address"
   for_each     = { for ip in var.reserve_static_ip : ip.name => ip }
   names        = [each.value.name]
   region       = each.value.region
@@ -12,5 +12,5 @@ module "address" {
   subnetwork   = each.value.subnetwork
   global       = false
   address_type = each.value.address_type
-  network_project ="wiai-prod-host-vpc-68"
+  network_project ="prj-prod-int-elasticrun-hostc9"
 }

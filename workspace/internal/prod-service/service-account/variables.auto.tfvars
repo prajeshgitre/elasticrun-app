@@ -5,12 +5,10 @@ project = {
 
 service_accounts_list = [
   {
-    project_id    = "wiai-mnch-anth-prod-srv-3c"
+    project_id    = "prj-prod-svc-elasticrun-01-94"
     prefix        = ""
-    display_name  = "svcacct-anthro-prod-data-clt"
-    names         = ["svcacct-anthro-prod-data-clt"]
+    display_name  = "sa-elasticrun-prod-as2-mariadb"
+    names         = ["sa-elasticrun-prod-as2-mariadb"]
     project_roles = []
   },
- 
- 
 ]

@@ -14,7 +14,7 @@ module "service_accounts" {
     google      = google.project
     google-beta = google-beta.project-beta
   }
-  source        = "../../../../../modules/terraform-google-service-account"
+  source        = "../../../../modules/terraform-google-service-account"
   for_each      = { for account in var.service_accounts_list : account.display_name => account }
   project_id    = each.value.project_id
   prefix        = each.value.prefix
