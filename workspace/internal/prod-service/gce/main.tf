@@ -25,7 +25,7 @@ module "compute_instance" {
     google-beta = google-beta.project-beta
   }
   for_each                  = { for x in var.list_of_vms : x.instance_name => x }
-  source                    = "../../../../../modules/terraform-google-vm/compute_instance"
+  source                    = "../../../../modules/terraform-google-vm/compute_instance"
   project_id                = each.value.project_id
   zone                      = each.value.zone
   source_image              = each.value.source_image
