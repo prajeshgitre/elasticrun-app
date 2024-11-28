@@ -1,6 +1,6 @@
-# terraform {
-#   backend "gcs" {
-#     bucket = "bkt-o4s-infra-service-as1-terraform-state"
-#     prefix = "terraform/stage/service-project/gke/state"
-#   }
-# }
+terraform {
+  backend "gcs" {
+    bucket = "bkt-elasticrun-bootstrap-asso2-terraform-state-app"
+    prefix = "terraform/internal/prod-service/gke/state"
+  }
+}

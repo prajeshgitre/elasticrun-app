@@ -1,10 +1,10 @@
 ##############################Service Account Token Details#################################
-# project = {
-#   name            = "prj-infra-service",
-#   service_account = "sa-common-srv-terraform-deploy@prj-infra-services.iam.gserviceaccount.com",
-# } 
+project = {
+  name            = "prj-seed-elasticrun",
+  service_account = "sa-terraform-app@prj-seed-elasticrun.iam.gserviceaccount.com"
+}
 
-############################## GKE creation Details#######################################
+
 list_of_gke = [
   {
     project_service        = "prj-stage-svc-o4s-01-45"
