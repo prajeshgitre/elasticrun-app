@@ -1,19 +1,19 @@
 project = {
-  name            = "prj-infra-service",
-  service_account = "sa-common-srv-terraform-deploy@prj-infra-services.iam.gserviceaccount.com"
+  name            = "prj-seed-elasticrun",
+  service_account = "sa-terraform-app@prj-seed-elasticrun.iam.gserviceaccount.com"
 }
 
 //Artifact registory
 artifact_registry = [
   {
-    id          = "repo-o4s-stage-as1-kubernetes-artifacts"
-    project_id  = "prj-stage-svc-o4s-01-45"
-    location    = "asia-south1"
+    id          = "repo-elasticrun-prod-as2-kubernetes-artifacts"
+    project_id  = "prj-prod-svc-elasticrun-01-94"
+    location    = "asia-south2"
     description = ""
     format      = "DOCKER"
     labels = {
       "team" : "devops",
-      "environment" : "stage",
+      "environment" : "prod",
 
     },
     iam = {
