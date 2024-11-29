@@ -19,4 +19,18 @@ cloud_storage = [
      
     }, 
   },
+    {
+    project_id = "prj-prod-svc-elasticrun-01-94"
+    name       = "bkt-elasticrun-prod-kafka-01"
+    location   = "asia-south2"
+    versioning = true
+    public_access_prevention = "inherited"
+    labels = {
+        "owner": "manoj"
+         businessunit : "internal"
+        "requestort": "manoj"
+        "environment": "prod"
+     
+    }, 
+  },
 ]
