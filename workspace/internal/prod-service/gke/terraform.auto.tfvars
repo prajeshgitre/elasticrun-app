@@ -7,31 +7,31 @@ project = {
 
 list_of_gke = [
   {
-    project_service        = "prj-stage-svc-o4s-01-45"
-    project_host           = "prj-stage-shrd-host-o4s-01-20"
-    region                 = "asia-south1"
-    zone                   = "asia-south1-a"
+    project_service        = "prj-prod-svc-elasticrun-01-94"
+    project_host           = "prj-prod-int-elasticrun-hostc9"
+    region                 = "asia-south2"
+    zone                   = "asia-south2-a"
     regional               = false
     disable_default_snat   = false
-    service_account        = "sa-stage-gke@prj-stage-svc-o4s-01-45.iam.gserviceaccount.com"
-    cluster_name           = "gke-prj-stage-svc-as1-app-01"
-    network_project_id     = "prj-stage-shrd-host-o4s-01-20"
-    network                = "vpc-stage-shrd-host-01"
-    subnetwork             = "sb-preprod-usw1-pc-gke-nodepool-01"
-    ip_range_pods          = "sb-preprod-usw1-pc-gke-pod-01"
-    ip_range_services      = "sb-preprod-usw1-pc-gke-svc-01"
-    master_ipv4_cidr_block = "10.2.9.0/28"
+    service_account        = "sa-er-prod-as2-gke-eng-cluster@prj-prod-svc-elasticrun-01-94.iam.gserviceaccount.com"
+    cluster_name           = "gke-internal-prod-as2-eng-cluster"
+    network_project_id     = "prj-prod-int-elasticrun-hostc9"
+    network                = "vpc-elasticrun-prod-as2-shared"
+    subnetwork             = "sb-prod-as2-k8s-eng-01"
+    ip_range_pods          = "sb-prod-as2-k8s-eng-pod"
+    ip_range_services      = "sb-prod-as2-k8s-eng-svc"
+    master_ipv4_cidr_block = "172.20.52.0/28"
     node_disk_type         = "pd-ssd"
     node_image_type        = "COS_CONTAINERD"
     cluster_resource_labels = {
-      "environment" : "stage"
+      "environment" : "prod"
 
     },
     http_load_balancing                  = true
     network_policy                       = false
     enable_intranode_visibility          = false
     filestore_csi_driver                 = false
-    enable_private_endpoint              = false
+    enable_private_endpoint              = true
     enable_private_nodes                 = true
     master_global_access_enabled         = false
     enable_vertical_pod_autoscaling      = true
@@ -54,17 +54,17 @@ list_of_gke = [
     logging_service                      = null
     enable_shielded_nodes                = true
     release_channel                      = "STABLE"
-    master_version                       = "1.29.9-gke.1177000"
+    master_version                       = "1.30.5-gke.1014003"
     maintenance_start_time               = "2024-01-01T00:00:00Z"
     maintenance_end_time                 = "2024-01-02T08:00:00Z"
     maintenance_recurrence               = "FREQ=WEEKLY;BYDAY=TH"
-    authenticator_security_group         = "gke-security-groups@zoomcar.com"
+    authenticator_security_group         = null
     default_max_pods_per_node            = 32
     monitoring_enable_managed_prometheus = false
     master_authorized_networks = [
       {
-        cidr_block   = "34.93.111.234/32",
-        display_name = "bastion-host"
+        cidr_block   = "172.20.28.2/32",
+        display_name = "jumpost-01"
       },
     ]
     monitoring_service               = null
@@ -98,39 +98,15 @@ list_of_gke = [
 
     node_pools = [
       {
-        name                        = "gke-node-pool-o4s-stage-app-non-prod"
-        node_pool_version           = "1.30.3-gke.1639000"
-        machine_type                = "n2d-custom-16-32768"
-        node_locations              = "asia-south1-a"
-        total_max_count             = 7
-        total_min_count             = 0
-        local_ssd_count             = 0
-        spot                        = false
-        disk_size_gb                = 50
-        disk_type                   = "pd-ssd"
-        image_type                  = "COS_CONTAINERD"
-        node_count                  = 4
-        enable_gcfs                 = false
-        enable_gvnic                = false
-        auto_repair                 = true
-        auto_upgrade                = true
-        service_account             = "sa-stage-app-non-prod@prj-stage-svc-o4s-01-45.iam.gserviceaccount.com"
-        preemptible                 = false
-        initial_node_count          = 1
-        enable_secure_boot          = true
-        enable_integrity_monitoring = true
-        boot_disk_kms_key           = ""
-      },
-       {
-        name                        = "gke-node-pool-o4s-stage-backend-spot"
-        node_pool_version           = "1.30.3-gke.1639000"
-        machine_type                = "n2d-standard-8"
-        node_locations              = "asia-south1-a"
+        name                        = "gke-node-pool-internal-prod-eng-01"
+        node_pool_version           = "1.30.5-gke.1014003"
+        machine_type                = "n2d-highmem-4"
+        node_locations              = "asia-south2-a"
         total_max_count             = 10
         total_min_count             = 1
         local_ssd_count             = 0
         spot                        = true
-        disk_size_gb                = 33
+        disk_size_gb                = 64
         disk_type                   = "pd-ssd"
         image_type                  = "COS_CONTAINERD"
         node_count                  = 1
@@ -138,23 +114,47 @@ list_of_gke = [
         enable_gvnic                = false
         auto_repair                 = true
         auto_upgrade                = true
-        service_account             = "sa-stage-backend-spot@prj-stage-svc-o4s-01-45.iam.gserviceaccount.com"
+        service_account             = "sa-er-prod-as2-gke-eng-node-01@prj-prod-svc-elasticrun-01-94.iam.gserviceaccount.com"
         preemptible                 = false
         initial_node_count          = 1
         enable_secure_boot          = true
         enable_integrity_monitoring = true
         boot_disk_kms_key           = ""
       },
-        {
-        name                        = "gke-node-pool-o4s-stage-general"
-        node_pool_version           = "1.30.3-gke.1639000"
-        machine_type                = "n2d-standard-4"
-        node_locations              = "asia-south1-a"
+      {
+        name                        = "gke-node-pool-internal-prod-eng-02"
+        node_pool_version           = "1.30.5-gke.1014003"
+        machine_type                = "n2d-highmem-2"
+        node_locations              = "asia-south2-a"
+        total_max_count             = 10
+        total_min_count             = 1
+        local_ssd_count             = 0
+        spot                        = true
+        disk_size_gb                = 64
+        disk_type                   = "pd-ssd"
+        image_type                  = "COS_CONTAINERD"
+        node_count                  = 1
+        enable_gcfs                 = false
+        enable_gvnic                = false
+        auto_repair                 = true
+        auto_upgrade                = true
+        service_account             = "sa-er-prod-as2-gke-eng-node-02@prj-prod-svc-elasticrun-01-94.iam.gserviceaccount.com"
+        preemptible                 = false
+        initial_node_count          = 1
+        enable_secure_boot          = true
+        enable_integrity_monitoring = true
+        boot_disk_kms_key           = ""
+      },
+      {
+        name                        = "gke-node-pool-internal-prod-eng-03"
+        node_pool_version           = "1.30.5-gke.1014003"
+        machine_type                = "n2d-highmem-2"
+        node_locations              = "asia-south2-a"
         total_max_count             = 10
         total_min_count             = 1
         local_ssd_count             = 0
         spot                        = false
-        disk_size_gb                = 33
+        disk_size_gb                = 64
         disk_type                   = "pd-ssd"
         image_type                  = "COS_CONTAINERD"
         node_count                  = 1
@@ -162,55 +162,7 @@ list_of_gke = [
         enable_gvnic                = false
         auto_repair                 = true
         auto_upgrade                = true
-        service_account             = "sa-stage-general@prj-stage-svc-o4s-01-45.iam.gserviceaccount.com"
-        preemptible                 = false
-        initial_node_count          = 1
-        enable_secure_boot          = true
-        enable_integrity_monitoring = true
-        boot_disk_kms_key           = ""
-      },
-            {
-        name                        = "gke-node-pool-o4s-stage-ops"
-        node_pool_version           = "1.30.3-gke.1639000"
-        machine_type                = "n2d-standard-8"
-        node_locations              = "asia-south1-a"
-        total_max_count             = 7
-        total_min_count             = 0
-        local_ssd_count             = 0
-        spot                        = false
-        disk_size_gb                = 50
-        disk_type                   = "pd-ssd"
-        image_type                  = "COS_CONTAINERD"
-        node_count                  = 1
-        enable_gcfs                 = false
-        enable_gvnic                = false
-        auto_repair                 = true
-        auto_upgrade                = true
-        service_account             = "sa-stage-ops@prj-stage-svc-o4s-01-45.iam.gserviceaccount.com"
-        preemptible                 = false
-        initial_node_count          = 1
-        enable_secure_boot          = true
-        enable_integrity_monitoring = true
-        boot_disk_kms_key           = ""
-      },
-                  {
-        name                        = "gke-node-pool-o4s-stage-perfect"
-        node_pool_version           = "1.30.3-gke.1639000"
-        machine_type                = "n2d-custom-4-8192"
-        node_locations              = "asia-south1-a"
-        total_max_count             = 1
-        total_min_count             = 0
-        local_ssd_count             = 0
-        spot                        = false
-        disk_size_gb                = 10
-        disk_type                   = "pd-ssd"
-        image_type                  = "COS_CONTAINERD"
-        node_count                  = 1
-        enable_gcfs                 = false
-        enable_gvnic                = false
-        auto_repair                 = true
-        auto_upgrade                = true
-        service_account             = "sa-stage-perfect@prj-stage-svc-o4s-01-45.iam.gserviceaccount.com"
+        service_account             = "sa-er-prod-as2-gke-eng-node-03@prj-prod-svc-elasticrun-01-94.iam.gserviceaccount.com"
         preemptible                 = false
         initial_node_count          = 0
         enable_secure_boot          = true
