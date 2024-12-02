@@ -50,10 +50,10 @@ module "gke" {
   enable_shielded_nodes           = each.value.enable_shielded_nodes
   release_channel                 = each.value.release_channel
   # master_version                  = each.value.master_version
-  maintenance_start_time          = each.value.maintenance_start_time
-  maintenance_end_time            = each.value.maintenance_end_time
-  maintenance_recurrence          = each.value.maintenance_recurrence
-  master_global_access_enabled    = each.value.master_global_access_enabled
+  maintenance_start_time       = each.value.maintenance_start_time
+  maintenance_end_time         = each.value.maintenance_end_time
+  maintenance_recurrence       = each.value.maintenance_recurrence
+  master_global_access_enabled = each.value.master_global_access_enabled
   # enable_intranode_visibility          = each.value.enable_intranode_visibility
   database_encryption          = each.value.database_encryption
   authenticator_security_group = each.value.authenticator_security_group
