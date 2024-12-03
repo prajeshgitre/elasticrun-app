@@ -98,7 +98,7 @@ list_of_gke = [
 
     node_pools = [
       {
-        name                        = "gke-node-pool-internal-prod-eng-mon"
+        name                        = "gke-np-internal-prod-eng-mon-spot"
         node_pool_version           = "1.30.5-gke.1014003"
         machine_type                = "n2d-highmem-4"
         node_locations              = "asia-south2-a"
@@ -122,7 +122,7 @@ list_of_gke = [
         boot_disk_kms_key           = ""
       },
       {
-        name                        = "gke-node-pool-internal-prod-eng-app"
+        name                        = "gke-np-internal-prod-eng-app-spot"
         node_pool_version           = "1.30.5-gke.1014003"
         machine_type                = "n2d-highmem-2"
         node_locations              = "asia-south2-a"
@@ -146,7 +146,7 @@ list_of_gke = [
         boot_disk_kms_key           = ""
       },
       {
-        name                        = "gke-node-pool-internal-prod-eng-sys"
+        name                        = "gke-np-internal-prod-eng-sys-non-spot"
         node_pool_version           = "1.30.5-gke.1014003"
         machine_type                = "n2d-highmem-2"
         node_locations              = "asia-south2-a"
@@ -265,7 +265,7 @@ list_of_gke = [
 
     node_pools = [
       {
-        name                        = "gke-node-pool-internal-prod-app-mon"
+        name                        = "gke-np-internal-prod-app-mon-spot"
         node_pool_version           = "1.30.5-gke.1014003"
         machine_type                = "n2d-highmem-4"
         node_locations              = "asia-south2-a"
@@ -289,7 +289,7 @@ list_of_gke = [
         boot_disk_kms_key           = ""
       },
       {
-        name                        = "gke-node-pool-internal-prod-app-app-01"
+        name                        = "gke-np-internal-prod-app-app-spot"
         node_pool_version           = "1.30.5-gke.1014003"
         machine_type                = "n2d-highmem-2"
         node_locations              = "asia-south2-a"
@@ -313,14 +313,14 @@ list_of_gke = [
         boot_disk_kms_key           = ""
       },
       {
-        name                        = "gke-node-pool-internal-prod-app-app-02"
+        name                        = "gke-np-internal-prod-app-app-non-spot"
         node_pool_version           = "1.30.5-gke.1014003"
         machine_type                = "n2d-highmem-2"
         node_locations              = "asia-south2-a"
         total_max_count             = 10
         total_min_count             = 1
         local_ssd_count             = 0
-        spot                        = true
+        spot                        = false
         disk_size_gb                = 64
         disk_type                   = "pd-ssd"
         image_type                  = "ubuntu_containerd"
@@ -337,7 +337,7 @@ list_of_gke = [
         boot_disk_kms_key           = ""
       },
       {
-        name                        = "gke-node-pool-internal-prod-app-sys"
+        name                        = "gke-np-internal-prod-app-sys-non-spot"
         node_pool_version           = "1.30.5-gke.1014003"
         machine_type                = "n2d-highmem-2"
         node_locations              = "asia-south2-a"
