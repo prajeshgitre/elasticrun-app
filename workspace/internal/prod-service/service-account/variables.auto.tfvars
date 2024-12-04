@@ -83,4 +83,11 @@ service_accounts_list = [
     names         = ["sa-er-prod-as2-gke-app-node-04"]
     project_roles = []
   },
+      {
+    project_id    = "prj-prod-svc-elasticrun-01-94"
+    prefix        = ""
+    display_name  = "sa-er-prod-as2-workload-01"
+    names         = ["sa-er-prod-as2-workload-01"]
+    project_roles = []
+  },
 ]

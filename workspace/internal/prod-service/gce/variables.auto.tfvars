@@ -29,6 +29,31 @@ list_of_vms = [
     deletion_protection = true,
     svc_account_id      = "sa-elasticrun-prod-as2-mariadb@prj-prod-svc-elasticrun-01-94.iam.gserviceaccount.com"
      additional_disks = [
+        {
+    disk_name    = "additional-disk-1"    
+    disk_size    = 100                    
+    disk_type    = "pd-standard"          
+    auto_delete  = true                   
+    mode         = "READ_WRITE"          
+    disk_project = ""      
+  },
+  {
+    disk_name    = "additional-disk-2"
+    disk_size    = 50
+    disk_type    = "pd-ssd"
+    auto_delete  = false
+    mode         = "READ_WRITE"
+    disk_project = ""
+  }
+    {
+    disk_name    = "additional-disk-2"
+    disk_size    = 50
+    disk_type    = "pd-ssd"
+    auto_delete  = false
+    mode         = "READ_WRITE"
+    disk_project = ""
+  }
+
      ]
     network_interface = [{
       nic_subnetwork         = "sb-prod-as2-db",
