@@ -27,7 +27,27 @@ list_of_vms = [
     enable_secure_boot  = true
     deletion_protection = true,
     svc_account_id      = "sa-elasticrun-prod-as2-mariadb@prj-prod-svc-elasticrun-01-94.iam.gserviceaccount.com"
+<<<<<<< HEAD
     additional_disks = [
+=======
+     additional_disks = [
+    {
+    disk_name    = "additional-disk-1"    
+    disk_size    = 100                    
+    disk_type    = "pd-standard"          
+    auto_delete  = true                   
+    mode         = "READ_WRITE"          
+    disk_project = ""      
+  },
+  {
+    disk_name    = "additional-disk-2"
+    disk_size    = 50
+    disk_type    = "pd-ssd"
+    auto_delete  = false
+    mode         = "READ_WRITE"
+    disk_project = ""
+  },
+>>>>>>> d8368fc (adding bucket)
     {
       disk_name    = "additional-disk-1"    
       device_name  = "gce-elasticrun-prod-as2-mariadb-datadisk-01"
