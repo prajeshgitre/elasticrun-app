@@ -29,7 +29,7 @@ locals {
 }
 locals {
   # Loop through the list and create another list using list comprehension
-  managed_ssl = flatten([ for ip in var.managed_ssl_certificate_domains :google_compute_managed_ssl_certificate.default["${ip}"].*.self_link])
+  managed_ssl = flatten([for ip in var.managed_ssl_certificate_domains : google_compute_managed_ssl_certificate.default["${ip}"].*.self_link])
 }
 
 ### IPv4 block ###
@@ -60,9 +60,9 @@ resource "google_compute_global_forwarding_rule" "https" {
 }
 
 resource "google_compute_ssl_policy" "ssl-policy" {
-  provider              = google-beta
-  project               = var.project
-  count                 = var.create_ssl_policy ? 1 : 0
+  provider        = google-beta
+  project         = var.project
+  count           = var.create_ssl_policy ? 1 : 0
   name            = var.ssl_policy_name
   profile         = var.ssl_policy_profile
   min_tls_version = var.ssl_policy_tls_version
@@ -162,7 +162,7 @@ resource "google_compute_managed_ssl_certificate" "default" {
   provider = google-beta
   for_each = toset(var.managed_ssl_certificate_domains)
   project  = var.project
-  name     = "cert-${split(".",each.value)[0]}"
+  name     = "cert-${split(".", each.value)[0]}"
 
 
   lifecycle {
@@ -182,7 +182,7 @@ resource "google_compute_url_map" "default" {
   count           = var.create_url_map ? 1 : 0
   name            = "${var.name}-url-map"
   default_service = google_compute_backend_service.default[keys(var.backends)[0]].self_link
-  
+
   dynamic "host_rule" {
     for_each = { for hr in var.host_rule : hr.path_matcher => hr if hr.path_matcher != null }
     content {
@@ -197,16 +197,16 @@ resource "google_compute_url_map" "default" {
       name            = path_matcher.value.path_matcher
       default_service = google_compute_backend_service.default["${path_matcher.value.backend}"].id
 
-        dynamic "path_rule" {
-          for_each = { for pr in path_matcher.value.path_rule != null ? path_matcher.value.path_rule : [] : pr.path => pr if pr.path != null }
-          content {
-            paths        = [path_rule.value.path]
-            service = google_compute_backend_service.default["${path_rule.value.backend}"].id
-          }
+      dynamic "path_rule" {
+        for_each = { for pr in path_matcher.value.path_rule != null ? path_matcher.value.path_rule : [] : pr.path => pr if pr.path != null }
+        content {
+          paths   = [path_rule.value.path]
+          service = google_compute_backend_service.default["${path_rule.value.backend}"].id
         }
+      }
     }
   }
-  
+
 }
 
 resource "google_compute_url_map" "https_redirect" {

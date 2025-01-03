@@ -36,7 +36,7 @@ resource "google_compute_global_forwarding_rule" "http" {
   name                  = var.name
   target                = google_compute_target_http_proxy.default[0].self_link
   ip_address            = local.address
-  port_range            = "80"
+  port_range            = var.http_port
   labels                = var.labels
   load_balancing_scheme = var.load_balancing_scheme
   network               = local.internal_network
@@ -49,17 +49,26 @@ resource "google_compute_global_forwarding_rule" "https" {
   name                  = "${var.name}-https"
   target                = google_compute_target_https_proxy.default[0].self_link
   ip_address            = local.address
-  port_range            = "443"
+  port_range            = var.https_port
   labels                = var.labels
   load_balancing_scheme = var.load_balancing_scheme
   network               = local.internal_network
+}
+
+resource "google_compute_ssl_policy" "ssl-policy" {
+  provider              = google-beta
+  project               = var.project
+  count                 = var.create_ssl_policy ? 1 : 0
+  name            = var.ssl_policy_name
+  profile         = var.ssl_policy_profile
+  min_tls_version = var.ssl_policy_tls_version
 }
 
 resource "google_compute_global_address" "default" {
   provider   = google-beta
   count      = local.is_internal ? 0 : var.create_address ? 1 : 0
   project    = var.project
-  name       = "${var.name}-address"
+  name       = var.static_address_name
   ip_version = "IPV4"
   labels     = var.labels
 }
@@ -117,10 +126,11 @@ resource "google_compute_target_https_proxy" "default" {
   name    = "${var.name}-https-proxy"
   url_map = local.url_map
 
-  ssl_certificates = compact(concat(var.ssl_certificates, google_compute_ssl_certificate.default.*.self_link, google_compute_managed_ssl_certificate.default.*.self_link, ), )
-  certificate_map  = var.certificate_map != null ? "//certificatemanager.googleapis.com/${var.certificate_map}" : null
-  ssl_policy       = var.ssl_policy
-  quic_override    = var.quic == null ? "NONE" : var.quic ? "ENABLE" : "DISABLE"
+  ssl_certificates  = compact(concat(var.ssl_certificates, google_compute_ssl_certificate.default.*.self_link, google_compute_managed_ssl_certificate.default.*.self_link, ), )
+  certificate_map   = var.certificate_map != null ? "//certificatemanager.googleapis.com/${var.certificate_map}" : null
+  ssl_policy        = var.create_ssl_policy == true ? google_compute_ssl_policy.ssl-policy[0].self_link : null
+  quic_override     = var.quic == null ? "NONE" : var.quic ? "ENABLE" : "DISABLE"
+  server_tls_policy = var.server_tls_policy
 }
 
 resource "google_compute_ssl_certificate" "default" {
@@ -166,6 +176,22 @@ resource "google_compute_url_map" "default" {
   count           = var.create_url_map ? 1 : 0
   name            = "${var.name}-url-map"
   default_service = google_compute_backend_service.default[keys(var.backends)[0]].self_link
+  
+  dynamic "host_rule" {
+    for_each = { for hr in var.host_rule : hr.path_matcher => hr if hr.path_matcher != null }
+    content {
+      hosts        = host_rule.value.hosts
+      path_matcher = host_rule.value.path_matcher
+    }
+  }
+
+  dynamic "path_matcher" {
+    for_each = { for pm in var.host_rule : pm.path_matcher => pm if pm.path_matcher != null }
+    content {
+      name            = path_matcher.value.path_matcher
+      default_service = google_compute_backend_service.default["${path_matcher.value.backend}"].id
+    }
+  }
 }
 
 resource "google_compute_url_map" "https_redirect" {
@@ -320,6 +346,9 @@ resource "google_compute_backend_service" "default" {
     google_compute_health_check.default
   ]
 
+  lifecycle {
+    ignore_changes = [backend]
+  }
 }
 
 resource "google_compute_health_check" "default" {
@@ -432,23 +461,23 @@ resource "google_compute_health_check" "default" {
   }
 }
 
-resource "google_compute_firewall" "default-hc" {
-  count   = length(var.firewall_networks)
-  project = length(var.firewall_networks) == 1 && var.firewall_projects[0] == "default" ? var.project : var.firewall_projects[count.index]
-  name    = "${var.name}-hc-${count.index}"
-  network = var.firewall_networks[count.index]
-  source_ranges = [
-    "130.211.0.0/22",
-    "35.191.0.0/16"
-  ]
-  target_tags             = length(var.target_tags) > 0 ? var.target_tags : null
-  target_service_accounts = length(var.target_service_accounts) > 0 ? var.target_service_accounts : null
+# resource "google_compute_firewall" "default-hc" {
+#   count   = length(var.firewall_networks)
+#   project = length(var.firewall_networks) == 1 && var.firewall_projects[0] == "default" ? var.project : var.firewall_projects[count.index]
+#   name    = "${var.name}-hc-${count.index}"
+#   network = var.firewall_networks[count.index]
+#   source_ranges = [
+#     "130.211.0.0/22",
+#     "35.191.0.0/16"
+#   ]
+#   target_tags             = length(var.target_tags) > 0 ? var.target_tags : null
+#   target_service_accounts = length(var.target_service_accounts) > 0 ? var.target_service_accounts : null
 
-  dynamic "allow" {
-    for_each = local.health_checked_backends
-    content {
-      protocol = "tcp"
-      ports    = [allow.value["health_check"].port]
-    }
-  }
-}
+#   dynamic "allow" {
+#     for_each = local.health_checked_backends
+#     content {
+#       protocol = "tcp"
+#       ports    = [allow.value["health_check"].port]
+#     }
+#   }
+# }

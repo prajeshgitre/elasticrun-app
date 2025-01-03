@@ -36,6 +36,12 @@ variable "address" {
   default     = null
 }
 
+variable "static_address_name" {
+  type        = string
+  description = ""
+  default     = null
+}
+
 variable "enable_ipv6" {
   type        = bool
   description = "Enable IPv6 address on the CDN load-balancer"
@@ -251,6 +257,31 @@ variable "ssl_policy" {
   default     = null
 }
 
+variable "create_ssl_policy" {
+  type        = bool
+  description = "Selfink to SSL Policy"
+  default     = false
+}
+
+variable "ssl_policy_name" {
+  type        = string
+  description = "Selfink to SSL Policy"
+  default     = null
+}
+
+variable "ssl_policy_profile" {
+  type        = string
+  description = "Selfink to SSL Policy"
+  default     = null
+}
+
+variable "ssl_policy_tls_version" {
+  type        = string
+  description = "Selfink to SSL Policy"
+  default     = null
+}
+
+
 variable "quic" {
   type        = bool
   description = "Specifies the QUIC override policy for this resource. Set true to enable HTTP/3 and Google QUIC support, false to disable both. Defaults to null which enables support for HTTP/3 only."
@@ -273,6 +304,16 @@ variable "https_redirect" {
   description = "Set to `true` to enable https redirect on the lb."
   type        = bool
   default     = false
+}
+
+variable "host_rule" {
+  description = "url map for host rule"
+  type = list(object({
+    path_matcher    = string
+    hosts  = list(string)
+    backend = string
+  }))
+  default = []
 }
 
 variable "random_certificate_suffix" {
@@ -303,4 +344,24 @@ variable "server_tls_policy" {
   description = "The resource URL for the server TLS policy to associate with the https proxy service"
   type        = string
   default     = null
+}
+
+variable "http_port" {
+  description = "The port for the HTTP load balancer"
+  type        = number
+  default     = 80
+  validation {
+    condition     = var.http_port >= 1 && var.http_port <= 65535
+    error_message = "You must specify exactly one port between 1 and 65535"
+  }
+}
+
+variable "https_port" {
+  description = "The port for the HTTPS load balancer"
+  type        = number
+  default     = 443
+  validation {
+    condition     = var.https_port >= 1 && var.https_port <= 65535
+    error_message = "You must specify exactly one port between 1 and 65535"
+  }
 }

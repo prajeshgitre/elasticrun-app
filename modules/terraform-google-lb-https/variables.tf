@@ -309,12 +309,12 @@ variable "https_redirect" {
 variable "host_rule" {
   description = "url map for host rule"
   type = list(object({
-    path_matcher    = string
-    hosts  = list(string)
-    backend = string
+    path_matcher = string
+    hosts        = list(string)
+    backend      = string
     path_rule = list(object({
-        path = string
-        backend = string
+      path    = string
+      backend = string
     }))
   }))
   default = [
