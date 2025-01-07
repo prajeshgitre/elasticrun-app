@@ -26,12 +26,12 @@ variable "list-of-glb" {
     #   # Add more attributes as needed
     # }))
     ssl_certificates = list(string)
-    # host_rule = list(object({
-    #   path_matcher = string
-    #   hosts        = list(string)
-    #   backend      = string
-    #   #service = string
-    # }))
+    host_rule = list(object({
+      path_matcher = string
+      hosts        = list(string)
+      backend      = string
+      #service = string
+    }))
     managed_ssl_certificate_domains = list(string)
     https_redirect                  = bool
     backends = map(object({

@@ -24,7 +24,7 @@ module "gcp-lb-https" {
   #url_map = each.value.url_map
   managed_ssl_certificate_domains = each.value.managed_ssl_certificate_domains
   https_redirect                  = each.value.https_redirect
-  # host_rule                       = each.value.host_rule
+  host_rule                       = each.value.host_rule
   # create_health_check_firewall = each.value.create_health_check_firewall
   backends         = each.value.backends
   certificate_map  = each.value.certificate_map

@@ -12,7 +12,7 @@ variable "list_of_cloud_armor" {
     type                                 = string
     layer_7_ddos_defense_enable          = bool
     layer_7_ddos_defense_rule_visibility = string
-    custom_rules                 = map(any)
-    security_rules = map(any)
+    custom_rules                         = map(any)
+    security_rules                       = map(any)
   }))
 }
