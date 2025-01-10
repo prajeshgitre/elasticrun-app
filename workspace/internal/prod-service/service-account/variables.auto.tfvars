@@ -11,8 +11,7 @@ service_accounts_list = [
     names         = ["sa-elasticrun-prod-as2-mariadb"]
     project_roles = []
   },
-
-    {
+  {
     project_id    = "prj-prod-svc-elasticrun-01-94"
     prefix        = ""
     display_name  = "sa-er-prod-as2-gke-eng-node-01"
@@ -20,7 +19,7 @@ service_accounts_list = [
     project_roles = []
   },
 
-    {
+  {
     project_id    = "prj-prod-svc-elasticrun-01-94"
     prefix        = ""
     display_name  = "sa-er-prod-as2-gke-eng-node-02"
@@ -28,7 +27,7 @@ service_accounts_list = [
     project_roles = []
   },
 
-    {
+  {
     project_id    = "prj-prod-svc-elasticrun-01-94"
     prefix        = ""
     display_name  = "sa-er-prod-as2-gke-eng-node-03"
@@ -36,7 +35,7 @@ service_accounts_list = [
     project_roles = []
   },
 
-    {
+  {
     project_id    = "prj-prod-svc-elasticrun-01-94"
     prefix        = ""
     display_name  = "sa-er-prod-as2-gke-eng-cluster"
@@ -44,7 +43,7 @@ service_accounts_list = [
     project_roles = []
   },
 
-    {
+  {
     project_id    = "prj-prod-svc-elasticrun-01-94"
     prefix        = ""
     display_name  = "sa-er-prod-as2-gke-app-cluster"
@@ -52,7 +51,7 @@ service_accounts_list = [
     project_roles = []
   },
 
-    {
+  {
     project_id    = "prj-prod-svc-elasticrun-01-94"
     prefix        = ""
     display_name  = "sa-er-prod-as2-gke-app-node-01"
@@ -60,7 +59,7 @@ service_accounts_list = [
     project_roles = []
   },
 
-    {
+  {
     project_id    = "prj-prod-svc-elasticrun-01-94"
     prefix        = ""
     display_name  = "sa-er-prod-as2-gke-app-node-02"
@@ -68,7 +67,7 @@ service_accounts_list = [
     project_roles = []
   },
 
-    {
+  {
     project_id    = "prj-prod-svc-elasticrun-01-94"
     prefix        = ""
     display_name  = "sa-er-prod-as2-gke-app-node-03"
@@ -76,14 +75,14 @@ service_accounts_list = [
     project_roles = []
   },
 
-    {
+  {
     project_id    = "prj-prod-svc-elasticrun-01-94"
     prefix        = ""
     display_name  = "sa-er-prod-as2-gke-app-node-04"
     names         = ["sa-er-prod-as2-gke-app-node-04"]
     project_roles = []
   },
-      {
+  {
     project_id    = "prj-prod-svc-elasticrun-01-94"
     prefix        = ""
     display_name  = "sa-er-prod-as2-workload-01"

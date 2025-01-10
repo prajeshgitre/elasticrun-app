@@ -5,7 +5,7 @@ variable "access_token_expiry" {
 
 variable "project" {
   type = object({
-    name      = optional(string), service_account = optional(string)
+    name = optional(string), service_account = optional(string)
   })
 }
 
