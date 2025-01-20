@@ -19,12 +19,12 @@ list-of-glb = [{
     #     path_matcher = "default"
     #     hosts        = ["dr-cas.elasticrun.in"]
     #     backend      = "app-01"
-   
+
     # },
-        {
-        path_matcher = "api"
-        hosts        = ["dr-spine.elasticrun.in"]
-        backend      = "eng-01"
+    {
+      path_matcher = "api"
+      hosts        = ["dr-spine.elasticrun.in"]
+      backend      = "eng-01"
     },
   ]
 
@@ -36,12 +36,12 @@ list-of-glb = [{
 
   #create_url_map = true
   # create_health_check_firewall = false
-  certificate_map                 = null
-  ssl                             = false
-  ssl_certificates                = [""]
-  use_ssl_certificates            = false
-  managed_ssl_certificate_domains = [""]
-  https_redirect                  = false
+  certificate_map  = null
+  ssl              = true
+  ssl_certificates = ["elasticrun-in-certificate"]
+  # use_ssl_certificates            = true
+  managed_ssl_certificate_domains = []
+  https_redirect                  = true
   backends = {
     app-01 = {
       backend_name                    = "be-prod-elasticrun-as2-lb-app"
