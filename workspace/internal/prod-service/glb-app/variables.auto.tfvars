@@ -29,8 +29,8 @@ list-of-glb = [{
   ]
 
   #custom SSL policy
-  create_ssl_policy      = false
-  ssl_policy_name        = "ssl-policy-prod-orf-tls-1-2-modern"
+  create_ssl_policy      = true
+  ssl_policy_name        = "gcp-ssl-1-2"
   ssl_policy_profile     = "MODERN"
   ssl_policy_tls_version = "TLS_1_2"
 
